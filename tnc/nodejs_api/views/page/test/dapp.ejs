@@ -1,0 +1,606 @@
+<h1><%= title %></h1>
+<script>
+
+$(function(){
+	$('.api_request').bind('click',getApiRequest);
+
+	//$('#createDapp').bind('click',createDapp);
+	//$('#updateDappKey').bind('click',updateDappKey);
+	//$('#commentDapp').bind('click',commentDapp);
+	//$('#deleteCommentDapp').bind('click',deleteCommentDapp);
+	//$('#VoteCommentDapp').bind('click',VoteCommentDapp);
+	
+	$('#getDapp').bind('click',getDapp);
+	$('#lookupDapps').bind('click',lookupDapps);
+	$('#getDappsByOwner').bind('click',getDappsByOwner);
+	//$('#getDappContent').bind('click',getDappContent);
+	//$('#getDappContentReplies').bind('click',getDappContentReplies);
+	//$('#lookupDappContents').bind('click',lookupDappContents);
+	
+});
+
+function initAjaxLog(){
+	$('p').html("");
+}
+
+function getApiRequest(){
+	var api = $(this).attr('id');
+	var $form = $('#'+$(this).parent().parent().attr('id'));
+
+	var url = "/api/"+api;
+	var data = $form.serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$form.find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+function getDapp(){
+	var url = "/api/getDapp";
+	
+	var dappname = $('#form_get_dapp').find("input[name*='dappname']");
+	var array_dapp = dappname.val().split('/');
+	
+	var dappnames = [];
+	for(var i=0;i<array_dapp.length;i++){
+		dappnames.push(array_dapp[i]);
+	}
+	$('#form_get_dapp').find("input[name*='dappnames']").val(JSON.stringify(dappnames));	
+
+	var data = $('#form_get_dapp').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_dapp').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+function lookupDapps(){
+	var url = "/api/lookupDapps";
+
+	var dappname = $('#form_lookup_dapps').find("input[name*='dappname']");
+	var array_dapp = dappname.val().split('/');
+	
+	var dappnames = [];
+	for(var i=0;i<array_dapp.length;i++){
+		dappnames.push(array_dapp[i]);
+	}
+	$('#form_lookup_dapps').find("input[name*='dappnames']").val(JSON.stringify(dappnames));
+
+	var data = $('#form_lookup_dapps').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_lookup_dapps').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+function getDappsByOwner(){
+	var url = "/api/getDappsByOwner";
+
+	var owner = $('#form_get_dapps_by_owner').find("input[name*='owner']");
+	var array_owner = owner.val().split('/');
+	
+	var owners = [];
+	for(var i=0;i<array_owner.length;i++){
+		owners.push(array_owner[i]);
+	}
+	$('#form_get_dapps_by_owner').find("input[name*='owners']").val(JSON.stringify(owners));
+
+	var data = $('#form_get_dapps_by_owner').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_dapps_by_owner').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+
+</script>
+<div id="left">
+	<ul>
+		<li>/api/createDapp post owner=(string)&pwd=(string)&dapp_name=(string)</li>
+		<li>/api/updateDappKey post owner=(string)&pwd=(string)&dapp_name=(string)</li>
+		<li>/api/commentDapp post dapp_name=(string)&author=(string)&pwd=(string)&parent_author=(string)&parent_permlink=(string)&permlink=(string)&title=(string)&body=(string)&json_meta=(string)</li>
+		<li>/api/deleteCommentDapp post dapp_name=(string)&author=(string)&pwd=(string)&permlink=(string)</li>
+		<li>/api/VoteCommentDapp post dapp_name=(string)&author=(string)&permlink=(string)&voter=(string)&pwd=(string)&vote_type=(int)</li>
+		<li>/api/joinDapp post account_name=(string)&pwd=(string)&dapp_name=(string)</li>
+		<li>/api/leaveDapp post account_name=(string)&pwd=(string)&dapp_name=(string)</li>
+		<li>/api/voteDapp post voter=(string)&pwd=(string)&dapp_name=(string)&vote=(int)</li>
+		<li>/api/voteDappActive post voter=(string)&pwd=(string)&dapp_name=(string)&vote=(int)</li>
+		<li>/api/voteDappTrxFee post voter=(string)&pwd=(string)&fee=(asset)</li>
+		<li>/api/getDapp post dappnames=(json_array_string)</li>
+		<li>/api/lookupDapps post dappnames=(json_array_string)&count=(int)</li>
+		<li>/api/getDappsByOwner post owners=(json_array_string)</li>
+		<li>/api/getDappContent post dapp_name=(string)&author=(string)&permlink=(string)</li>
+		<li>/api/getDappContentReplies post dapp_name=(string)&author=(string)&permlink=(string)</li>
+		<li>/api/lookupDappContents post dapp_name=(string)&last_author=(string)&last_permlink=(string)&limit=(int)</li>
+		<li>/api/lookupDappUsers post dapp_name=(string)&users=(string)&limit=(int)</li>
+		<li>/api/getJoinDapps post account_name=(string)</li>
+		<li>/api/getDappVotes post dapp_name=(string)</li>
+		<li>/api/getDappHistory post dapp_name=(string)&from=(숫자 : must be greater than limit)&limit=(숫자)</li>
+		<li>/api/writePurchase post author=(string)&pwd=(string)&dapp_name=(string)&permlink=(string)&product=(string)&price=(int)&img_url=(string)</li>
+		<li>/api/registerDirectAD post author=(string)&pwd=(string)&dapp_name=(string)&permlink=(string)&title=(string)&body=(string)&total_price=(int)&per_price=(int)&limit_day=(int)&main_img=(string)&ad_img=(string)&vod=(string)&link=(string)</li>
+		<li>/api/registerMissioinAD post author=(string)&pwd=(string)&dapp_name=(string)&permlink=(string)&title=(string)&body=(string)&type=(앱설치 : install,화원가입 : join,구매 : purchase)&total_price=(int)&per_price=(int)&limit_day=(int)&main_img=(string)&ad_img=(string)&vod=(string)&link=(string)</li>
+		<li>/api/joinAD post author=(string)&pwd=(string)&dapp_name=(string)&ad_permlink=(string)&ad_author=(string)&permlink=(string)</li>
+		<li>/api/enjoyDirectAD post author=(string)&pwd=(string)&dapp_name=(string)&ad_permlink=(string)&ad_author=(string)&permlink=(string)&price=(int)</li>
+		<li>/api/enjoyMissionAD post author=(string)&pwd=(string)&dapp_name=(string)&ad_permlink=(string)&ad_author=(string)&permlink=(string)&img=(string)</li>
+		<li>/api/acceptMissionAD post author=(string)&pwd=(string)&dapp_name=(string)&ad_permlink=(string)&ad_author=(string)&permlink=(string)&enjoy_permlink=(string)&state=(int)&price=(int)</li>
+	</ul>
+</div>
+
+<div id="main">
+	
+	<div>
+		<form id="form_create_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>createDapp</legend>
+				<input type="text" name="owner" placeholder="owner Dapp의 소유자 계정 " />
+				<input type="text" name="pwd"   placeholder="signature 생성용" /> 
+				<input type="text" name="dapp_name" placeholder="dapp_name" />
+				<!--<input type="text" name="dapp_key" placeholder="dapp_key" /> 프로그램 생성-->
+				<input type="button" id="createDapp" value="createDapp" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_update_dapp_key" onsubmit="return false;">
+			<fieldset>
+				<legend>updateDappKey</legend>
+				<input type="text" name="owner" placeholder="owner Dapp의 소유자 계정 " />
+				<input type="text" name="pwd"   placeholder="signature 생성용" /> 
+				<input type="text" name="dapp_name" placeholder="dapp_name" />
+				<!--<input type="text" name="dapp_key" placeholder="dapp_key" /> 프로그램 생성-->
+				<input type="button" id="updateDappKey" value="updateDappKey" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_comment_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>commentDapp</legend>
+				<input type="text" name="dapp_name" placeholder="dapp_name" />
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="password or posting private key signature 생성용" /> 
+				<input type="text" name="parent_author" placeholder="parent_author 부모글이 없는 경우 공백" />
+				<input type="text" name="parent_permlink" placeholder="parent_permlink 부모글이 없는 경우 공백" />
+				<input type="text" name="permlink" placeholder="permlink 해당 글의 index ex)102" />
+				<input type="text" name="title" placeholder="title" />
+				<input type="text" name="body" placeholder="body" />
+				<input type="text" name="json_meta" placeholder="json_meta 빈공백" />
+
+				<input type="button" id="commentDapp" value="commentDapp" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_delete_comment_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>deleteCommentDapp</legend>
+				<input type="text" name="dapp_name" placeholder="dapp_name" />
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="password or posting private key signature 생성용" /> 
+				<input type="text" name="permlink" placeholder="permlink 해당 글의 절대 경로 /board/article/view/102" />
+				
+				<input type="button" id="deleteCommentDapp" value="deleteCommentDapp" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_comment_vote_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>VoteCommentDapp</legend>
+				<input type="text" name="dapp_name" placeholder="dapp_name" />
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="permlink" placeholder="permlink 해당 글의 절대 경로 /board/article/view/102" />
+				<input type="text" name="voter" placeholder="voter" />
+				<input type="text" name="pwd"   placeholder=" voter의 password or posting private key signature 생성용" /> 
+				<input type="text" name="vote_type" placeholder="vote_type. LIKE이면 11, DISLIKE면 12를 입력" />
+				<input type="button" id="VoteCommentDapp" value="VoteCommentDapp" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_join_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>joinDapp</legend>
+				<input type="text" name="account_name" value="" style="" placeholder="account_name" />
+				<input type="text" name="pwd" placeholder="password or active private key signature 생성용" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="button" id="joinDapp" value="joinDapp" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+	
+	<div>
+		<form id="form_leave_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>leaveDapp</legend>
+				<input type="text" name="account_name" value="" style="" placeholder="account_name" />
+				<input type="text" name="pwd" placeholder="password or active private key signature 생성용" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="button" id="leaveDapp" value="leaveDapp" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+	
+	<div>
+		<form id="form_vote_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>voteDapp</legend>
+				<input type="text" name="voter" value="" style="" placeholder="voter" />
+				<input type="text" name="pwd"   placeholder="password or active private key signature 생성용" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="vote" value="" style="" placeholder="vote (승인:102, 거절:103)" />
+				<input type="button" id="voteDapp" value="voteDapp" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_vote_dapp_active" onsubmit="return false;">
+			<fieldset>
+				<legend>voteDappActive</legend>
+				<input type="text" name="voter" value="" style="" placeholder="voter" />
+				<input type="text" name="pwd"   placeholder="password or active private key signature 생성용" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="vote" value="" style="" placeholder="vote (active:257, stop:258)" />
+				<input type="button" id="voteDappActive" value="voteDappActive" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_vote_dapp_trx_fee" onsubmit="return false;">
+			<fieldset>
+				<legend>voteDappTrxFee</legend>
+				<input type="text" name="voter" value="" style="" placeholder="voter" />
+				<input type="text" name="pwd"   placeholder="password or active private key signature 생성용" /> 
+				<input type="text" name="fee" value="" style="" placeholder="trx fee. only snac" />
+				<input type="button" id="voteDappTrxFee" value="voteDappTrxFee" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+	
+	<div>
+		<form id="form_get_dapp" onsubmit="return false;"> 
+			<fieldset>
+				<legend>getDapp</legend>
+				<input type="text" name="dappname" value="" style="" placeholder="dappname" />
+				<input type="hidden" name="dappnames" />
+				<input type="button" id="getDapp" value="getDapp" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+	
+	<div>
+		<form id="form_lookup_dapps" onsubmit="return false;">
+			<fieldset>
+				<legend>lookupDapps</legend>
+				<input type="text" name="dappname" value="" style="" placeholder="dappname" />
+				<input type="text" name="count" value="10" style="" placeholder="count" />
+				<input type="hidden" name="dappnames" />
+				<input type="button" id="lookupDapps" value="lookupDapps" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_dapps_by_owner" onsubmit="return false;">
+			<fieldset>
+				<legend>getDappsByOwner</legend>
+				<input type="text" name="owner" value="" style="" placeholder="owner" />
+				<input type="hidden" name="owners" />
+				<input type="button" id="getDappsByOwner" value="getDappsByOwner" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+	<div>
+		<form id="form_get_dapp_content" onsubmit="return false;">
+			<fieldset>
+				<legend>getDappContent</legend>
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="author" value="" style="" placeholder="author" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="button" id="getDappContent" value="getDappContent" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_dapp_content_replies" onsubmit="return false;">
+			<fieldset>
+				<legend>getDappContentReplies</legend>
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="author" value="" style="" placeholder="author" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="button" id="getDappContentReplies" value="getDappContentReplies" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_lookup_dapp_contents" onsubmit="return false;">
+			<fieldset>
+				<legend>lookupDappContents</legend>
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="last_author" value="" style="" placeholder="last_author" />
+				<input type="text" name="last_permlink" value="" style="" placeholder="last_permlink" />
+				<input type="text" name="limit" value="" style="" placeholder="limit(1~100)" />
+				<input type="button" id="lookupDappContents" value="lookupDappContents" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_lookup_dapp_users" onsubmit="return false;">
+			<fieldset>
+				<legend>lookupDappUsers</legend>
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="users" value="" style="" placeholder="user account" />
+				<input type="text" name="limit" value="" style="" placeholder="limit(1~1000)" />
+				<input type="button" id="lookupDappUsers" value="lookupDappUsers" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_join_dapps" onsubmit="return false;"> 
+			<fieldset>
+				<legend>getJoinDapps</legend>
+				<input type="text" name="account_name" value="" style="" placeholder="account_name" />
+				<input type="button" id="getJoinDapps" value="getJoinDapps" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_dapp_votes" onsubmit="return false;"> 
+			<fieldset>
+				<legend>getDappVotes</legend>
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="button" id="getDappVotes" value="getDappVotes" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_dapp_history" onsubmit="return false;">
+			<fieldset>
+				<legend>getDappHistory</legend>
+				<input type="text" name="dapp_name" value="" style="" placeholder="account" />
+				<input type="text" name="from" value="" style="" placeholder="from" />
+				<input type="text" name="limit" value="" style="" placeholder="limit" />
+				<input type="button" id="getDappHistory" value="getDappHistory" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_write_parchase" onsubmit="return false;">
+			<fieldset>
+				<legend>writePurchase</legend>
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="비밀번호 or POSTING KEY" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="text" name="product" value="" style="" placeholder="제품명" />
+				<input type="text" name="price" value="" style="" placeholder="가격" />
+				<input type="text" name="img_url" value="" style="" placeholder="제품이미지경로(http://....)" />
+
+				<input type="button" id="writePurchase" value="writePurchase" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_register_direct_ad" onsubmit="return false;">
+			<fieldset>
+				<legend>registerDirectAD</legend>
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="비밀번호 or POSTING KEY" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="text" name="title" value="" style="" placeholder="제목" />
+				<input type="text" name="body" value="" style="" placeholder="내용" />
+				<input type="text" name="total_price" value="" style="" placeholder="전체광고비" />
+				<input type="text" name="per_price" value="" style="" placeholder="클릭시 지급할 광고비" />
+				<input type="text" name="limit_day" value="" style="" placeholder="선착순" />
+				<input type="text" name="main_img" value="" style="" placeholder="대표이미지 경로(http://....)" />
+				<input type="text" name="ad_img" value="" style="" placeholder="광고이미지 경로(http://....)" />
+				<input type="text" name="vod" value="" style="" placeholder="광고동영상 경로(http://....)" />
+				<input type="text" name="link" value="" style="" placeholder="url링크(http://....)" />
+
+				<input type="button" id="registerDirectAD" value="registerDirectAD" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_register_mission_ad" onsubmit="return false;">
+			<fieldset>
+				<legend>registerMissioinAD</legend>
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="비밀번호 or POSTING KEY" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="text" name="title" value="" style="" placeholder="제목" />
+				<input type="text" name="body" value="" style="" placeholder="내용" />
+				<input type="text" name="type" value="" style="" placeholder="미션종류(앱설치 : install,화원가입 : join,구매 : purchase)" />
+				<input type="text" name="total_price" value="" style="" placeholder="전체광고비" />
+				<input type="text" name="per_price" value="" style="" placeholder="미션완료시 지급할 광고비" />
+				<input type="text" name="limit_day" value="" style="" placeholder="선착순" />
+				<input type="text" name="main_img" value="" style="" placeholder="대표이미지 경로(http://....)" />
+				<input type="text" name="ad_img" value="" style="" placeholder="광고이미지 경로(http://....)" />
+				<input type="text" name="vod" value="" style="" placeholder="광고동영상 경로(http://....)" />
+				<input type="text" name="link" value="" style="" placeholder="url링크(http://....)" />
+
+				<input type="button" id="registerMissioinAD" value="registerMissioinAD" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_join_ad" onsubmit="return false;">
+			<fieldset>
+				<legend>joinAD</legend>
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="비밀번호 or POSTING KEY" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="ad_permlink" value="" style="" placeholder="광고 permlink" />
+				<input type="text" name="ad_author" value="" style="" placeholder="광고 게시자" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+
+				<input type="button" id="joinAD" value="joinAD" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_enjoy_direct_ad" onsubmit="return false;">
+			<fieldset>
+				<legend>enjoyDirectAD</legend>
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="비밀번호 or POSTING KEY" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="ad_permlink" value="" style="" placeholder="광고 permlink" />
+				<input type="text" name="ad_author" value="" style="" placeholder="광고 게시자" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="text" name="price" value="" style="" placeholder="지급금액" />
+
+				<input type="button" id="enjoyDirectAD" value="enjoyDirectAD" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_enjoy_mission_ad" onsubmit="return false;">
+			<fieldset>
+				<legend>enjoyMissionAD</legend>
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="비밀번호 or POSTING KEY" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="ad_permlink" value="" style="" placeholder="광고 permlink" />
+				<input type="text" name="ad_author" value="" style="" placeholder="광고 게시자" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="text" name="img" value="" style="" placeholder="인증샷경로" />
+
+				<input type="button" id="enjoyMissionAD" value="enjoyMissionAD" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_accept_mission_ad" onsubmit="return false;">
+			<fieldset>
+				<legend>acceptMissionAD</legend>
+				<input type="text" name="author" placeholder="author" />
+				<input type="text" name="pwd"   placeholder="비밀번호 or POSTING KEY" /> 
+				<input type="text" name="dapp_name" value="" style="" placeholder="dapp_name" />
+				<input type="text" name="ad_permlink" value="" style="" placeholder="광고 permlink" />
+				<input type="text" name="ad_author" value="" style="" placeholder="광고 게시자" />
+				<input type="text" name="permlink" value="" style="" placeholder="permlink" />
+				<input type="text" name="enjoy_permlink" value="" style="" placeholder="참여한 permlink" />
+				<input type="text" name="state" value="" style="" placeholder="0:거부, 1:승인" />
+				<input type="text" name="price" value="" style="" placeholder="지급금액" />
+
+				<input type="button" id="acceptMissionAD" value="acceptMissionAD" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>

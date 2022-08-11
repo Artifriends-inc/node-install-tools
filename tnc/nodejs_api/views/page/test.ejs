@@ -1,0 +1,15 @@
+<h1><%= title %></h1>
+
+<ul>
+	<li><a href="/test/database" target="_blank">Database<a/></li>
+	<% if(env == 'development'){ %>
+	<li><a href="/test/transaction" target="_blank">Transaction<a/></li>
+	<li><a href="/test/tnc_rr_wallet" target="_blank">TNCRealResearchWallet<a/></li>
+	<li><a href="/test/tnc_ald_wallet" target="_blank">TNCAladdinProWallet<a/></li>
+	<!--
+	<li><a href="/test/dapp" target="_blank">Dapp<a/></li>
+	<li><a href="/test/token_search" target="_blank">Token_Search<a/></li>
+	<li><a href="/test/token" target="_blank">Token<a/></li>
+	-->
+	<% } %>
+</ul>

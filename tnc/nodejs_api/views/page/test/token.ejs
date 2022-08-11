@@ -1,0 +1,569 @@
+<h1><%= title %></h1>
+<script>
+
+$(function(){
+	
+	$('#createToken').bind('click',createToken);
+	$('#issueToken').bind('click',issueToken);
+	$('#transferToken').bind('click',transferToken);
+	$('#burnToken').bind('click', burnToken);
+	$('#setupTokenFund').bind('click', setupTokenFund);
+	$('#setTokenStakingInterest').bind('click', setTokenStakingInterest);
+	$('#transferTokenFund').bind('click', transferTokenFund);
+	$('#stakingTokenFund').bind('click', stakingTokenFund);
+	$('#transferTokenSavings').bind('click', transferTokenSavings);
+	$('#cancelTransferTokenSavings').bind('click', cancelTransferTokenSavings);
+	$('#concludeTransferTokenSavings').bind('click', concludeTransferTokenSavings);
+	$('#voteTokenExchangeRate').bind('click',voteTokenExchangeRate);
+
+	$('.encrypt').bind('click',function(){
+		if($(this).is(':checked') == true) {
+			var $memo_key = $(this).parent().find('.memo_key');
+			$memo_key.val("");
+			$memo_key.show();
+		}else {
+			var $memo_key = $(this).parent().find('.memo_key');
+			$memo_key.val("");
+			$memo_key.hide();
+		}
+	});
+	
+});
+
+function initAjaxLog(){
+	$('p').html("");
+}
+
+function createToken(){
+	var url = "/api/createToken";
+	var data = $('#form_create_token').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_create_token').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+
+}
+
+function issueToken(){
+	var url = "/api/issueToken";
+	var data = $('#form_issue_token').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_issue_token').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+
+}
+
+function transferToken(){
+	var url = "/api/transferToken";
+	
+	var data = $('#form_transfer_token').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_transfer_token').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+function burnToken(){
+	var url = "/api/burnToken";
+	
+	var data = $('#form_burn_token').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_burn_token').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+function setupTokenFund(){
+	var url = "/api/setupTokenFund";
+	
+	var data = $('#form_setup_token_fund').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_setup_token_fund').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function setTokenStakingInterest(){
+	var url = "/api/setTokenStakingInterest";
+	
+	var data = $('#form_set_token_staking_interest').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_set_token_staking_interest').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function transferTokenFund(){
+	var url = "/api/transferTokenFund";
+	
+	var data = $('#form_transfer_token_fund').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_transfer_token_fund').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function stakingTokenFund(){
+	var url = "/api/stakingTokenFund";
+	
+	var data = $('#form_staking_token_fund').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_staking_token_fund').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function transferTokenSavings(){
+	var url = "/api/transferTokenSavings";
+	
+	var data = $('#form_transfer_token_savings').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_transfer_token_savings').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function cancelTransferTokenSavings(){
+	var url = "/api/cancelTransferTokenSavings";
+	var data = $('#form_cancel_transfer_token_savings').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_cancel_transfer_token_savings').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function concludeTransferTokenSavings(){
+	var url = "/api/concludeTransferTokenSavings";
+	var data = $('#form_conclude_transfer_token_savings').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_conclude_transfer_token_savings').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function voteTokenExchangeRate(){
+	var url = "/api/voteTokenExchangeRate";
+	
+	var data = $('#form_vote_token_exchange_rate').serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_vote_token_exchange_rate').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+
+</script>
+<div id="left">
+	<ul>
+		<li>/api/createToken post dappname=(string)&dapp_private_key=(string)&name=(string)&symbol_name=(string)&publisher=(string)&init_supply_amount=(숫자)</li>
+		<li>/api/issueToken post dapp_private_key=(string)&name=(string)&publisher=(string)&reissue_amount=(string)</li>
+		<li>/api/transferToken post wif=(string)&from=(string)&to=(string)&amount=(소수점8자리까지)&symbol_name=(string)&memo=(string)&memo_key=(string)</li>
+		<li>/api/burnToken post wif=(string)&account=(string)&amount=(소수점8자리까지)&symbol_name=(string)</li>
+		<li>/api/setupTokenFund post wif=(string)&publisher=(string)&token=(string)&fund=(string)&init_fund=(소수점8자리까지)&symbol_name=(string)</li>
+		<li>/api/setTokenStakingInterest post wif=(string)&publisher=(string)&token=(string)&month=(string)&interest=(이자 단위%)</li>
+		<li>/api/transferTokenFund post wif=(string)&from=(string)&token=(string)&fund=(string)&amount=(소수점8자리까지)&symbol_name=(string)&memo=(string)</li>
+		<li>/api/stakingTokenFund post wif=(string)&from=(string)&token=(string)&fund=(string)&request_id=(string)&amount=(소수점8자리까지)&symbol_name=(string)&memo=(string)&month=(string)</li>
+		<li>/api/transferTokenSavings post wif=(string)&from=(string)&token=(string)&to=(string)&req_id=(unsigned int)&amount=(소수점8자리까지)&symbol_name=(string)&split_pay_month=(분할 지급 개월 수)&memo=(string)&next_date=(string)</li>
+		<li>/api/cancelTransferTokenSavings post wif=(string)&from=(string)&token=(string)&to=(string)&req_id=(unsigned int)</li>
+		<li>/api/concludeTransferTokenSavings post wif=(string)&from=(string)&token=(string)&to=(string)&req_id=(unsigned int)</li>
+		<li>/api/voteTokenExchangeRate post wif=(string)&voter=(string)&name=(string)&price=(소수점8자리까지)&symbol_name=(string)</li>
+	</ul>
+</div>
+
+<div id="main">
+	<div>
+		<form id="form_create_token" onsubmit="return false;">
+			<fieldset>
+				<legend>createToken</legend>
+				<input type="text" name="dappname" placeholder="dappname" />
+				<input type="text" name="dapp_private_key" placeholder="dapp_private_key" />
+				<input type="text" name="name" placeholder="token 이름 " />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+				<input type="text" name="publisher" placeholder="publisher" />
+				<input type="text" name="init_supply_amount" placeholder="init_supply_amount" />
+				<input type="button" id="createToken" value="createToken" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_issue_token" onsubmit="return false;">
+			<fieldset>
+				<legend>issueToken</legend>			
+				<input type="text" name="dapp_private_key" placeholder="dapp_private_key" />
+				<input type="text" name="name" placeholder="token 이름 " />
+				<input type="text" name="publisher" placeholder="publisher" />
+				<input type="text" name="reissue_amount" placeholder="reissue_amount" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+				<input type="button" id="issueToken" value="issueToken" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_transfer_token" onsubmit="return false;">
+			<fieldset>
+				<legend>transferToken</legend>
+				<input type="text" name="wif" placeholder="active_wif or password" />
+
+				<input type="text" name="from" placeholder="from" />
+				<input type="text" name="to" placeholder="to" />
+				<input type="text" name="amount" placeholder="amount" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+				
+				<label for="encrypt">메모암호화</label>
+				<input type="checkbox" class="encrypt" name="encrypt" value="" style="" placeholder="encrypt" />
+				<input type="text" name="memo" value="" placeholder="memo" />
+				<input type="text" class="memo_key" name="memo_key" value="" style="display:none;" placeholder="password 입력시 미기재"/>
+
+				<input type="button" id="transferToken" value="transferToken" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_burn_token" onsubmit="return false;">
+			<fieldset>
+				<legend>burnToken</legend>
+				<input type="text" name="wif" placeholder="active_wif or password" />
+
+				<input type="text" name="account" placeholder="account" />
+				<input type="text" name="amount" placeholder="amount" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+
+				<input type="button" id="burnToken" value="burnToken" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_setup_token_fund" onsubmit="return false;">
+			<fieldset>
+			<legend>setupTokenFund</legend>
+				<input type="text" name="wif" placeholder="active_wif or password" />
+				<input type="text" name="publisher" placeholder="token publisher account" />
+				<input type="text" name="token" placeholder="token 이름" />
+				<input type="text" name="fund" placeholder="fund 이름" />
+				<input type="text" name="init_fund" placeholder="initial fund balance" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+
+				<input type="button" id="setupTokenFund" value="setupTokenFund" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_set_token_staking_interest" onsubmit="return false;">
+			<fieldset>
+			<legend>setTokenStakingInterest</legend>
+				<input type="text" name="wif" placeholder="active_wif or password" />
+				<input type="text" name="publisher" placeholder="token publisher account" />
+				<input type="text" name="token" placeholder="token 이름" />
+				<input type="text" name="month" placeholder="개월수" />
+				<input type="text" name="interest" placeholder="이자, 단위%. -1을 넣으면 이자 삭제" />
+
+				<input type="button" id="setTokenStakingInterest" value="setTokenStakingInterest" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_transfer_token_fund" onsubmit="return false;">
+			<fieldset>
+			<legend>transferTokenFund</legend>
+				<input type="text" name="wif" placeholder="active_wif or password" />
+				<input type="text" name="from" placeholder="account" />
+				<input type="text" name="token" placeholder="token 이름" />
+				<input type="text" name="fund" placeholder="fund 이름" />
+				<input type="text" name="amount" placeholder="amount" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+				<input type="text" name="memo" placeholder="memo" />
+
+				<input type="button" id="transferTokenFund" value="transferTokenFund" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	
+	<div>
+		<form id="form_staking_token_fund" onsubmit="return false;">
+			<fieldset>
+			<legend>stakingTokenFund</legend>
+				<input type="text" name="wif" placeholder="active_wif or password" />
+				<input type="text" name="from" placeholder="account" />
+				<input type="text" name="token" placeholder="token 이름" />
+				<input type="text" name="fund" placeholder="fund 이름" />
+				<input type="text" name="req_id" placeholder="request id" />
+				<input type="text" name="amount" placeholder="amount" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+				<input type="text" name="memo" placeholder="memo" />
+				<input type="text" name="month" placeholder="month" />
+
+				<input type="button" id="stakingTokenFund" value="stakingTokenFund" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_transfer_token_savings" onsubmit="return false;">
+			<fieldset>
+				<legend>transferTokenSavings</legend>
+				<input type="text" name="token" placeholder="token"/>
+				<input type="text" name="from" placeholder="from"/>
+				<input type="text" name="wif" placeholder="password or active wif of 'from'"/>
+				<input type="text" name="to" placeholder="to" />
+				<input type="text" name="req_id" placeholder="unsigned int, request_id" />
+				<input type="text" name="amount" placeholder="amount" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+				<input type="text" name="split_pay_month" placeholder="int, 분할 지불 개월 수" />
+				<input type="text" name="memo" placeholder="memo" />
+				<input type="text" name="next_date" placeholder="2019-07-04T06:38:27" />
+				<input type="button" id="transferTokenSavings" value="transferTokenSavings" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_cancel_transfer_token_savings" onsubmit="return false;">
+			<fieldset>
+				<legend>cancelTransferTokenSavings</legend>
+				<input type="text" name="token" placeholder="token"/>
+				<input type="text" name="from" placeholder="from"/>
+				<input type="text" name="wif" placeholder="password or active wif of 'from'"/>
+				<input type="text" name="to" placeholder="to" />
+				<input type="text" name="req_id" placeholder="unsigned int, request_id" />
+				<input type="button" id="cancelTransferTokenSavings" value="cancelTransferTokenSavings" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_conclude_transfer_token_savings" onsubmit="return false;">
+			<fieldset>
+				<legend>concludeTransferTokenSavings</legend>
+				<input type="text" name="token" placeholder="token"/>
+				<input type="text" name="from" placeholder="from"/>
+				<input type="text" name="wif" placeholder="password or active wif of 'from'"/>
+				<input type="text" name="to" placeholder="to" />
+				<input type="text" name="req_id" placeholder="unsigned int, request_id" />
+				<input type="button" id="concludeTransferTokenSavings" value="concludeTransferTokenSavings" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_vote_token_exchange_rate" onsubmit="return false;">
+			<fieldset>
+			<legend>voteTokenExchangeRate</legend>
+				<input type="text" name="name" placeholder="token 이름 " />
+				<input type="text" name="wif" placeholder="active_wif or password" />
+				<input type="text" name="voter" placeholder="account" />
+				<input type="text" name="price" placeholder="1 PIA당 가격. symbol까지 포함하여 표시" />
+				<input type="text" name="symbol_name" placeholder="symbol_name" />
+
+				<input type="button" id="voteTokenExchangeRate" value="voteTokenExchangeRate" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>

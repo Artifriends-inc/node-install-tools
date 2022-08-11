@@ -1,0 +1,116 @@
+<h1><%= title %></h1>
+
+<script>
+
+$(function(){
+	$('.api_request').bind('click',getApiRequest);
+	
+	//$('#transfer').bind('click',transfer);
+	//$('#createAccount').bind('click',createAccount);
+	//$('#updateAccount').bind('click',updateAccount);
+
+	$('.encrypt').bind('click',function(){
+		if($(this).is(':checked') == true) {
+			var $memo_key = $(this).parent().find('.memo_key');
+			$memo_key.val("");
+			$memo_key.show();
+		}else {
+			var $memo_key = $(this).parent().find('.memo_key');
+			$memo_key.val("");
+			$memo_key.hide();
+		}
+	});
+});
+
+function getApiRequest(){
+	var api = $(this).attr('id');
+	var $form = $('#'+$(this).parent().parent().attr('id'));
+
+	var url = "/api/"+api;
+	var data = $form.serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$form.find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+function initAjaxLog(){
+	$('p').html('');
+}
+
+</script>
+<div id="left">
+	<ul>
+		<li>/api/transfer<br/> post from=(string)&from_pwd=(string)&to=(string)&amount=(string 소수점 8자리까지)&memo=(string)&memo_key=(string)</li>
+		<li>/api/createAccount<br/> post username=(string)&password=(string)</li>
+		<li>/api/updateAccount<br/> post username=(string)&old_password=(string)&password=(string)</li>
+	</ul>
+</div>
+
+<div id="main">
+
+	<div>
+		<form id="form_transfer" onsubmit="return false;">
+			<fieldset>
+				<legend>transfer</legend>
+				<input type="text" name="from" value="<%= creator %>" style="width:200px;height:30px;" placeholder="from"/>
+				<input type="text" name="from_pwd" value="<%= creator_wif %>" style="width:200px;height:30px;" placeholder="from_pwd or active wif"/>
+				<input type="text" name="to" value="" style="width:200px;height:30px;" placeholder="to" />
+				<input type="text" name="amount" value="" style="width:200px;height:30px;" placeholder="amount" />
+				<label for="encrypt">메모암호화</label>
+				<input type="checkbox" class="encrypt" name="encrypt" value="" style="" placeholder="encrypt" />
+				<input type="text" name="memo" value="" style="width:200px;height:30px;" placeholder="memo" />
+				<input type="text" class="memo_key" name="memo_key" value="" style="width:200px;height:30px;display:none;" placeholder="password 입력시 미기재"/>
+				<input type="button" id="transfer" value="transfer" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+		
+	</div>
+
+	<div>
+
+		<form id="form_create_account" onsubmit="return false;">
+			<fieldset>
+				<legend>create_Account</legend>
+				<input type="text" name="creator" value="<%= creator %>" style="width:200px;height:30px;" placeholder="creator"/>
+				<input type="text" name="creator_wif" value="<%= creator_wif %>" style="width:200px;height:30px;" placeholder="pwd or creator_active_wif"/>	
+				<input type="text" name="username" value="" style="" placeholder="username" />
+				<input type="text" name="password" value="" style="" placeholder="password" />
+				<input type="button" id="createAccount" value="createAccount" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_update_account" onsubmit="return false;">
+			<fieldset>
+				<legend>update_Account</legend>
+				<input type="text" name="username" value="" style="" placeholder="username" />
+				<input type="text" name="old_password" value="" style="" placeholder="old_password" />
+				<input type="text" name="password" value="" style="" placeholder="password" />
+				<input type="button" id="updateAccount" value="updateAccount" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>

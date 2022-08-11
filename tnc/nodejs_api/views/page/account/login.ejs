@@ -1,0 +1,56 @@
+
+
+<script>
+
+$(function(){
+	$('#login').bind("click",function(){
+		var url = "/login";
+
+		$.ajax({
+			method : 'post',
+			type : 'post',
+			url:url,
+			dataType : 'json',
+			data: {username: $('#username').val(),password: $('#password').val()},
+			success : function(data){
+				console.log(data);
+				location.href="/";
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				console.log(xhr.responseText);
+				alert(xhr.responseText);
+			},
+			complete: function (jqXHR,textStatus ) {
+			
+			}
+		});
+	});
+		
+        //setInterval(test, 1000);
+
+});
+
+function test(){
+	$('#log').append('<p>'+ uuidv4() + '</p>');
+}
+
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  )
+}
+
+
+</script>
+
+
+<p>
+	<input type="text" id="username" name="username" value="" style="width:200px;height:30px;" placeholder="username" />
+	<input type="text" id="password" name="password" value="" style="width:200px;height:30px;" placeholder="password" />
+
+	<input type="button"  id="login" value="login"/>
+</p>
+
+<div id="log">
+	
+</div>
