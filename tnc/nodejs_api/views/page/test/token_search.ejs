@@ -1,0 +1,542 @@
+<h1><%= title %></h1>
+
+<script>
+
+$(function(){
+	
+	$('#getToken').bind('click',getToken);
+	$('#LookUpTokens').bind('click',LookUpTokens);
+	$('#getTokenBalance').bind('click',getTokenBalance);
+	$('#getAccountsByToken').bind('click',getAccountsByToken);
+	$('#getTokensByDapp').bind('click',getTokensByDapp);
+	$('#getTokenFund').bind('click',getTokenFund);
+	$('#getTokenStakingInterest').bind('click',getTokenStakingInterest);
+	$('#getTokenStakingList').bind('click',getTokenStakingList);
+	$('#lookupTokenFundWithdraw').bind('click',lookupTokenFundWithdraw);
+	$('#getTokenSavingsWithdrawFrom').bind('click',getTokenSavingsWithdrawFrom);
+	$('#getTokenSavingsWithdrawTo').bind('click',getTokenSavingsWithdrawTo);
+	$('#lookupTokenSavingsWithdraw').bind('click',lookupTokenSavingsWithdraw);
+});
+
+function initAjaxLog(){
+	$('p').html("");
+}
+
+function getToken(){
+	var url = "/api/getToken";
+	
+	var tokenname = $('#form_get_token').find("input[name*='tokenname']");
+	var array_token = tokenname.val().split('/');
+	
+	var tokennames = [];
+	for(var i=0;i<array_token.length;i++){
+		tokennames.push(array_token[i]);
+	}
+	$('#form_get_token').find("input[name*='tokennames']").val(JSON.stringify(tokennames));	
+
+	var data = $('#form_get_token').serialize();
+	//console.log(JSON.stringify(data));
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_token').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+
+function LookUpTokens(){
+	var url = "/api/LookUpTokens";
+
+	var tokenname = $('#form_lookup_tokens').find("input[name*='tokenname']");
+	var array_token = tokenname.val().split('/');
+	
+	var tokennames = [];
+	for(var i=0;i<array_token.length;i++){
+		tokennames.push(array_token[i]);
+	}
+	$('#form_lookup_tokens').find("input[name*='tokennames']").val(JSON.stringify(tokennames));	
+
+	var data = $('#form_lookup_tokens').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_lookup_tokens').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+
+function getTokenBalance(){
+	var url = "/api/getTokenBalance";
+
+	var account = $('#form_get_token_balance').find("input[name*='account']");
+	var array_account = account.val().split('/');
+	
+	var accounts = [];
+	for(var i=0;i<array_account.length;i++){
+		accounts.push(array_account[i]);
+	}
+	$('#form_get_token_balance').find("input[name*='accounts']").val(JSON.stringify(accounts));	
+
+	var data = $('#form_get_token_balance').serialize();	
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_token_balance').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+
+function getAccountsByToken(){
+	var url = "/api/getAccountsByToken";
+	
+	var tokenname = $('#form_get_accounts_by_token').find("input[name*='tokenname']");
+	var array_token = tokenname.val().split('/');
+	
+	var tokennames = [];
+	for(var i=0;i<array_token.length;i++){
+		tokennames.push(array_token[i]);
+	}
+	$('#form_get_accounts_by_token').find("input[name*='tokennames']").val(JSON.stringify(tokennames));	
+
+	var data = $('#form_get_accounts_by_token').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_accounts_by_token').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function getTokensByDapp(){
+	var url = "/api/getTokensByDapp";
+	
+	var dappname = $('#form_get_tokens_by_dapp').find("input[name*='dappname']");
+	var array_dapp = dappname.val().split('/');
+	
+	var dappnames = [];
+	for(var i=0;i<array_dapp.length;i++){
+		dappnames.push(array_dapp[i]);
+	}
+	$('#form_get_tokens_by_dapp').find("input[name*='dappnames']").val(JSON.stringify(dappnames));	
+
+	var data = $('#form_get_tokens_by_dapp').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_tokens_by_dapp').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function getTokenFund(){
+	var url = "/api/getTokenFund";
+	var data = $('#form_get_token_fund').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_token_fund').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function getTokenStakingInterest(){
+	var url = "/api/getTokenStakingInterest";
+	var data = $('#form_get_token_staking_interest').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_token_staking_interest').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function getTokenStakingList(){
+	var url = "/api/getTokenStakingList";
+	var data = $('#form_get_token_staking_list').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_token_staking_list').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function lookupTokenFundWithdraw(){
+	var url = "/api/lookupTokenFundWithdraw";
+	var data = $('#form_lookup_token_fund_withdraw').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_lookup_token_fund_withdraw').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function getTokenSavingsWithdrawFrom(){
+	var url = "/api/getTokenSavingsWithdrawFrom";
+	var data = $('#form_get_token_savings_withdraw_from').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_token_savings_withdraw_from').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function getTokenSavingsWithdrawTo(){
+	var url = "/api/getTokenSavingsWithdrawTo";
+	var data = $('#form_get_token_savings_withdraw_to').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_get_token_savings_withdraw_to').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+function lookupTokenSavingsWithdraw(){
+	var url = "/api/lookupTokenSavingsWithdraw";
+	var data = $('#form_lookup_token_savings_withdraw').serialize();
+
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$('#form_lookup_token_savings_withdraw').find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		}
+	});
+}
+
+</script>
+
+<div id="left">
+	<ul>
+		<li>/api/getToken post tokennames=(json_array_string: 배열의 형태이지만 실제는 하나만 검색됨)</li>
+		<li>/api/LookUpTokens post tokennames=(json_array_string: 배열의 형태이지만 실제는 하나만 검색됨)&count=(숫자)</li>
+		<li>/api/getTokenBalance post accounts=(json_array_string: 배열의 형태이지만 실제는 하나만 검색됨)</li>
+		<li>/api/getAccountsByToken post tokennames=(json_array_string: 배열의 형태이지만 실제는 하나만 검색됨)</li>
+		<li>/api/getTokensByDapp post dappnames=(json_array_string: 배열의 형태이지만 실제는 하나만 검색됨)</li>
+		<li>/api/getTokenFund post toeknname=(string)&fundname=(string)</li>
+		<li>/api/getTokenStakingInterest post toeknname=(string)</li>
+		<li>/api/getTokenStakingList post account=(string)&tokenname=(string)</li>
+		<li>/api/lookupTokenFundWithdraw post tokenname=(string)&fundname=(string)&account=(string)&req_id=(숫자)&count=(숫자)</li>
+		<li>/api/getTokenSavingsWithdrawFrom post tokenname=(string)&from=(string)</li>
+		<li>/api/getTokenSavingsWithdrawTo post tokenname=(string)&to=(string)</li>
+		<li>/api/lookupTokenSavingsWithdraw post tokenname=(string)&from=(string)&to=(string)&req_id=(숫자)&count=(숫자)</li>
+	</ul>
+</div>
+
+<div id="main">
+
+	<div>
+		<form id="form_get_token" onsubmit="return false;"> 
+			<fieldset>
+				<legend>getToken</legend>
+				<input type="text" name="tokenname" value="" style="" placeholder="tokenname" />
+				<input type="hidden" name="tokennames" />
+				<input type="button" id="getToken" value="getToken" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_lookup_tokens" onsubmit="return false;">
+			<fieldset>
+				<legend>LookUpTokens</legend>
+				<input type="text" name="tokenname" value="" style="" placeholder="tokenname" />
+				<input type="text" name="count" value="10" style="" placeholder="count" />
+				<input type="hidden" name="tokennames" />
+				<input type="button" id="LookUpTokens" value="LookUpTokens" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_token_balance" onsubmit="return false;">
+			<fieldset>
+				<legend>getTokenBalance</legend>
+				<input type="text" name="account" value="" style="" placeholder="account" />
+				<input type="hidden" name="accounts" />
+				<input type="button" id="getTokenBalance" value="getTokenBalance" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_accounts_by_token" onsubmit="return false;">
+			<fieldset>
+				<legend>getAccountsByToken</legend>
+				<input type="text" name="tokenname" value="" style="" placeholder="tokenname" />
+				<input type="hidden" name="tokennames" />
+				<input type="button" id="getAccountsByToken" value="getAccountsByToken" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_tokens_by_dapp" onsubmit="return false;">
+			<fieldset>
+				<legend>getTokensByDapp</legend>
+				<input type="text" name="dappname" value="" style="" placeholder="dappname" />
+				<input type="hidden" name="dappnames" />
+				<input type="button" id="getTokensByDapp" value="getTokensByDapp" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_token_fund" onsubmit="return false;">
+			<fieldset>
+				<legend>getTokenFund</legend>
+				<input type="text" name="tokenname" value="" placeholder="tokenname" />
+				<input type="text" name="fundname" value="" placeholder="fundname" />
+				<input type="button" id="getTokenFund" value="getTokenFund" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_token_staking_interest" onsubmit="return false;">
+			<fieldset>
+				<legend>getTokenStakingInterest</legend>
+				<input type="text" name="tokenname" value="" placeholder="tokenname" />
+				<input type="button" id="getTokenStakingInterest" value="getTokenStakingInterest" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_token_staking_list" onsubmit="return false;">
+			<fieldset>
+				<legend>getTokenStakingList</legend>
+				<input type="text" name="account" value="" placeholder="account" />
+				<input type="text" name="tokenname" value="" placeholder="token name" />
+				<input type="button" id="getTokenStakingList" value="getTokenStakingList" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_lookup_token_fund_withdraw" onsubmit="return false;">
+			<fieldset>
+				<legend>lookupTokenFundWithdraw</legend>
+				<input type="text" name="tokenname" value="" placeholder="token name" />
+				<input type="text" name="fundname" value="" placeholder="fund name" />
+				<input type="text" name="account" value="" placeholder="account" />
+				<input type="text" name="req_id" value="0" placeholder="request id" />
+				<input type="text" name="count" value="10" placeholder="count" />
+				<input type="button" id="lookupTokenFundWithdraw" value="lookupTokenFundWithdraw" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_token_savings_withdraw_from" onsubmit="return false;">
+			<fieldset>
+				<legend>getTokenSavingsWithdrawFrom</legend>
+				<input type="text" name="tokenname" value="" placeholder="token name" />
+				<input type="text" name="from" value="" placeholder="from account" />
+				<input type="button" id="getTokenSavingsWithdrawFrom" value="getTokenSavingsWithdrawFrom" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_token_savings_withdraw_to" onsubmit="return false;">
+			<fieldset>
+				<legend>getTokenSavingsWithdrawTo</legend>
+				<input type="text" name="tokenname" value="" placeholder="token name" />
+				<input type="text" name="to" value="" placeholder="to account" />
+				<input type="button" id="getTokenSavingsWithdrawTo" value="getTokenSavingsWithdrawTo" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_lookup_token_savings_withdraw" onsubmit="return false;">
+			<fieldset>
+				<legend>lookupTokenSavingsWithdraw</legend>
+				<input type="text" name="tokenname" value="" placeholder="token name" />
+				<input type="text" name="from" value="" placeholder="from account" />
+				<input type="text" name="to" value="" placeholder="to account" />
+				<input type="text" name="req_id" value="0" placeholder="request id" />
+				<input type="text" name="count" value="10" placeholder="count" />
+				<input type="button" id="lookupTokenSavingsWithdraw" value="lookupTokenSavingsWithdraw" class="btn-info btn-md"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>

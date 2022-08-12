@@ -1,0 +1,286 @@
+<h1><%= title %></h1>
+
+<script>
+
+$(function(){
+	$('.api_request').bind('click',getApiRequest);
+	
+	//$('#transfer').bind('click',transfer);
+	//$('#createAccount').bind('click',createAccount);
+	//$('#updateAccount').bind('click',updateAccount);
+
+	$('.encrypt').bind('click',function(){
+		if($(this).is(':checked') == true) {
+			var $memo_key = $(this).parent().find('.memo_key');
+			$memo_key.val("");
+			$memo_key.show();
+		}else {
+			var $memo_key = $(this).parent().find('.memo_key');
+			$memo_key.val("");
+			$memo_key.hide();
+		}
+	});
+});
+
+function getApiRequest(){
+	var api = $(this).attr('id');
+	var $form = $('#'+$(this).parent().parent().attr('id'));
+
+	var url = "/api/"+api;
+	var data = $form.serialize();
+	
+	$.ajax({
+		method : 'post',
+		type : 'post',
+		url:url,
+		dataType : 'json',
+		data: data,
+		success : function(data){
+			console.log(data);
+			initAjaxLog();
+			$form.find('p').html(JSON.stringify(data));
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			alert(xhr.responseText);
+		},
+		complete: function (jqXHR,textStatus ) {
+		
+		}
+	});
+}
+
+function initAjaxLog(){
+	$('p').html('');
+}
+
+</script>
+<div id="left">
+	<ul>
+		<li>/api/tnc_rr_transfer<br/> post email=(string)&password=(string)&to=(string)&amount=(string 소수점 6자리까지)&memo=(string)&memo_key=(string)</li>
+		<li>/api/tnc_rr_create_wallet<br/> post creator=(string)&creator_wif=(string)&email=(string)&password=(string)</li>
+		<li>/api/tnc_rr_get_wallet_address<br/> post email=(string</li>
+		<li>/api/tnc_rr_update_wallet_key<br/> post email=(string)&old_password=(string)&password=(string)</li>
+		<li>/api/tnc_rr_staking_info<br/> post name=(string)</li>
+		<li>/api/tnc_rr_staking_fund<br/> post email=(string)&password=(string)&fund_name=(string)&request_id=(int)&amount=(string 소수점 6자리까지)&memo=(string)&memo_key=(string)&usertype=(int)&month=(int)</li>
+		<li>/api/tnc_rr_transfer_fund<br/> post email=(string)&password=(string)&fund_name=(string)&amount=(string 소수점 6자리까지)&memo=(string)&memo_key=(string)</li>
+		<li>/api/tnc_rr_get_staking_fund_from<br/> post name=(string)&email=(string)</li>
+		<li>/api/tnc_rr_get_staking_fund_list<br/> post name=(string)&limit=(int)</li>
+		<li>/api/tnc_rr_get_wallet_history<br/> post email=(string)&from=(int)&limit=(int)</li>
+		<li>/api/tnc_rr_get_wallet_info<br/> post email=(string)</li>
+		<li>/api/tnc_rr_transfer_lock<br/> post email=(string)&password=(string)&request_id=(int)&to=(string)&amount=(string 소수점 6자리)&split_pay_month=(int)&memo=(string)&memo_key=(string)&complete=(2019-07-04T06:38:27)</li>
+		<li>/api/tnc_rr_get_transfer_lock_from<br/> post email=(string)</li>
+		<li>/api/tnc_rr_get_transfer_lock_to<br/> post email=(string)</li>
+		<li>/api/tnc_rr_check_wallet<br/> post email=(string)&password=(string)</li>
+	</ul>
+</div>
+
+<div id="main">
+
+	<div>
+		<form id="form_transfer" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_transfer ( TNC 송금 )</legend>
+				<input type="text" name="email" value="" style="width:200px;height:30px;" placeholder="email"/>
+				<input type="text" name="password" value="" style="width:200px;height:30px;" placeholder="from_pwd or active wif"/>
+				<input type="text" name="to" value="" style="width:200px;height:30px;" placeholder="to" />
+				<input type="text" name="amount" value="" style="width:200px;height:30px;" placeholder="amount" />
+				<label for="encrypt">메모암호화</label>
+				<input type="checkbox" class="encrypt" name="encrypt" value="" style="" placeholder="encrypt" />
+				<input type="text" name="memo" value="" style="width:200px;height:30px;" placeholder="memo" />
+				<input type="text" class="memo_key" name="memo_key" value="" style="width:200px;height:30px;display:none;" placeholder="password 입력시 미기재"/>
+				<input type="button" id="tnc_rr_transfer" value="tnc_rr_transfer" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+		
+	</div>
+
+	<div>
+		<form id="form_tnc_create_wallet" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_create_wallet ( TNC 지갑 생성 )</legend>
+				<input type="text" name="creator" value="" style="width:200px;height:30px;" placeholder="creator"/>
+				<input type="text" name="creator_wif" value="" style="width:200px;height:30px;" placeholder="pwd or creator_active_wif"/>	
+				<input type="text" name="email" value="" style="" placeholder="email" />
+				<input type="text" name="password" value="" style="" placeholder="password" />
+				<input type="button" id="tnc_rr_create_wallet" value="tnc_rr_create_wallet" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_tnc_get_wallet_address" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_get_wallet_address ( 아이디로 지갑 확인 ) </legend>
+				<input type="text" name="email" value="" style="" placeholder="email" />
+				<input type="button" id="tnc_rr_get_wallet_address" value="tnc_rr_get_wallet_address" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_update_account" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_update_wallet_key ( 지갑 비밀번호 변경 ) </legend>
+				<input type="text" name="email" value="" style="" placeholder="email" />
+				<input type="text" name="old_password" value="" style="" placeholder="old_password" />
+				<input type="text" name="password" value="" style="" placeholder="password" />
+				<input type="button" id="tnc_rr_update_wallet_key" value="tnc_rr_update_wallet_key" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_staking_info" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_staking_info ( 스테이킹 정보 )</legend>
+				<input type="text" name="name" value="" style="" placeholder="deposit" />
+				<input type="button" id="tnc_rr_staking_info" value="tnc_rr_staking_info" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_staking_fund" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_staking_fund ( 스테이킹 하기 )</legend>
+				<input type="text" name="email" value=""  placeholder="email"/>
+				<input type="text" name="password" value=""  placeholder="from_pwd or active wif"/>
+				<input type="text" name="fund_name" value=""  placeholder="fund name"/>
+				<input type="text" name="request_id" value=""  placeholder="request_id"/>
+				<input type="text" name="amount" value=""  placeholder="amount" />
+				<input type="text" name="memo" value=""  placeholder="memo" />
+				<input type="text" class="memo_key" name="memo_key" value="" placeholder="password 입력시 미기재"/>
+				<input type="text" name="usertype" value=""  placeholder="angel = 0 , normal = 1" />
+				<input type="text" name="month" value=""  placeholder="month" />
+				<input type="button" id="tnc_rr_staking_fund" value="tnc_rr_staking_fund" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>	
+	</div>
+
+	<div>
+		<form id="form_transfer_fund" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_transfer_fund  ( 스테이킹 이자 입금 )</legend>
+				<input type="text" name="email" value=""  placeholder="email"/>
+				<input type="text" name="password" value=""  placeholder="from_pwd or active wif"/>
+				<input type="text" name="fund_name" value=""  placeholder="fund name"/>
+				<input type="text" name="amount" value=""  placeholder="amount" />
+				<input type="text" name="memo" value=""  placeholder="memo" />
+				<input type="text" class="memo_key" name="memo_key" value="" placeholder="password 입력시 미기재"/>
+				<input type="button" id="tnc_rr_transfer_fund" value="tnc_rr_transfer_fund" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>	
+	</div>
+
+	<div>
+		<form id="form_get_staking_fund_from" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_get_staking_fund_from  ( 유저별 스테이킹 정보 )</legend>
+				<input type="text" name="name" value=""  placeholder="deposit"/>
+				<input type="text" name="email" value=""  placeholder="email"/>
+				<input type="button" id="tnc_rr_get_staking_fund_from" value="tnc_rr_get_staking_fund_from" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>	
+	</div>
+
+	<div>
+		<form id="form_get_staking_fund_list" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_get_staking_fund_list  ( 스테이킹 목록 )</legend>
+				<input type="text" name="name" value=""  placeholder="deposit"/>
+				<input type="text" name="limit" value=""  placeholder="max : 10000"/>
+				<input type="button" id="tnc_rr_get_staking_fund_list" value="tnc_rr_get_staking_fund_list" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>	
+	</div>
+
+	<div>
+		<form id="form_get_account_history" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_get_wallet_history ( 지갑 히스토리 ) </legend>
+				<input type="text" name="email" value="" style="" placeholder="email" />
+				<input type="text" name="from" value="" style="" placeholder="from" />
+				<input type="text" name="limit" value="" style="" placeholder="limit" />
+				<input type="button" id="tnc_rr_get_wallet_history" value="tnc_rr_get_wallet_history" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_wallet_info" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_get_wallet_info ( 지갑정보 ) </legend>
+				<input type="text" id="email" name="email" value="" style="" placeholder="email" />
+				<input type="button" id="tnc_rr_get_wallet_info" value="tnc_rr_get_wallet_info" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+	<div>
+		<form id="form_transfer_savings" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_transfer_lock ( LOCK 전송 ) </legend>
+				<input type="text" name="email" value="" style="" placeholder="email"/>
+				<input type="text" name="password" value="" style="" placeholder="from_pwd or active wif"/>
+				<input type="text" name="request_id" value="" style="" placeholder="int 형 유일키 입력하세요 request_id" />
+				<input type="text" name="to" value="" style="" placeholder="to" />
+				<input type="text" name="amount" value="" style="" placeholder="amount" />
+				<input type="text" name="split_pay_month" value="" style="" placeholder="split_pay_month" />
+				<label for="encrypt">메모암호화</label>
+				<input type="checkbox" class="encrypt" name="encrypt" value="" style="" placeholder="encrypt" />
+				<input type="text" name="memo" value="" style="" placeholder="memo" />
+				<input type="text" class="memo_key" name="memo_key" value="" style="" placeholder="password 입력시 미기재"/>
+				<input type="text" name="complete" value="" style="" placeholder="2019-07-04T06:38:27" />
+				<input type="button" id="tnc_rr_transfer_lock" value="tnc_rr_transfer_lock" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+	
+	<div>
+		<form id="form_get_transfer_lock_from" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_get_transfer_lock_from ( LOCK 전송 정보 - 받는사람 ) </legend>
+				<input type="text" id="email" name="email" value="" style="" placeholder="email" />
+				<input type="button" id="tnc_rr_get_transfer_lock_from" value="tnc_rr_get_transfer_lock_from" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_get_transfer_lock_to" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_get_transfer_lock_to ( LOCK 전송 정보 - 보낸사람 ) </legend>
+				<input type="text" id="email" name="email" value="" style="" placeholder="email" />
+				<input type="button" id="tnc_rr_get_transfer_lock_to" value="tnc_rr_get_transfer_lock_to" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+	<div>
+		<form id="form_tnc_check_wallet" onsubmit="return false;">
+			<fieldset>
+				<legend>tnc_rr_check_wallet ( 지갑 체크 - Login ) </legend>
+				<input type="text" id="email" name="email" value="" style="" placeholder="email" />
+				<input type="text" id="password" name="password" value="" style="" placeholder="wallet" />
+				<input type="button" id="tnc_rr_check_wallet" value="tnc_rr_check_wallet" class="btn-info btn-md api_request"/>
+			</fieldset>
+			<p></p>
+		</form>
+	</div>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
